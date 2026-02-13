@@ -1,10 +1,11 @@
 import React from 'react'
 import MovieCard from '../components/MovieCard'
+import HomeMovieList from '../components/HomeMovieList'
 
 const Home = () => {
     return (
         <div>
-            <div className='text-center mt-10'>
+            <div className='text-center mt-10 mb-5'>
                 <label className="input focus-within:outline-0">
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <g
@@ -18,10 +19,13 @@ const Home = () => {
                             <path d="m21 21-4.3-4.3"></path>
                         </g>
                     </svg>
-                    <input type="search"  placeholder="Search" />
+                    <input type="search" placeholder="Search" />
                 </label>
             </div>
-            <MovieCard/>
+            <div className='mx-auto'>
+                <HomeMovieList />
+            </div>
+
         </div>
     )
 }
