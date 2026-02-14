@@ -14,7 +14,7 @@ const Home = () => {
                 <Search />
             </div>
             <div>
-                {movies.lengtg > 0 &&
+                {movies?.length > 0 &&
                     <HomeMovieList />
                 }
             </div>

@@ -6,7 +6,7 @@ const Search = () => {
 
     const {setQuery, query} = useContext(MovieContext)
 
-   
+   console.log(query)
 
     return (
         <div>

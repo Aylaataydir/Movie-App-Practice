@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import MovieContext from '../context/MovieContext'
 
 const MovieCard = ({ movie }) => {
@@ -11,13 +11,13 @@ const MovieCard = ({ movie }) => {
     const isInWatchList = watchlist.some(m => m.id === movie.id)
     const isInFavorites = favorites.some(m => m.id === movie.id)
 
-    const year = new Date(release_date).getFullYear()
+    const year = movie.release_date ? new Date(release_date).getFullYear() : ""
 
     return (
         <div className="card bg-base-100 w-30 md:w-40 lg:w-50 shadow-xl group border border-base-200 h-full mx-auto">
             <figure className="relative overflow-hidden">
                 <img
-                    src={backdrop_path ? `https://image.tmdb.org/t/p/w500/${backdrop_path}` : "https://tse1.mm.bing.net/th/id/OIP.XXWKhZZeWjrUPx-ZSfP0GAHaDt?rs=1&pid=ImgDetMain&o=7&rm=3"}
+                    src= {`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
                     alt="Movie"
                     className="transition-transform duration-300 group-hover:scale-105 h-30 object-cover "
                 />

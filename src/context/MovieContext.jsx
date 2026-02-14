@@ -11,7 +11,8 @@ export const MovieContextProvider = ({ children }) => {
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem("favorites")) || [])
   const [query, setQuery] = useState("")
 
-
+console.log(query)  
+console.log(movies)
 
   const toggleList = (movie, listName) => {
 
@@ -54,12 +55,14 @@ export const MovieContextProvider = ({ children }) => {
 
     const { data } = await axios(`${url}&query=${query}`)
     setMovies(data.results)
+    console.log(data.results)
   }
 
+  
 
   useEffect(() => {
     getMovies()
-  }, [])
+  }, [query])
 
 
   useEffect(() => {
