@@ -1,2 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+@layer components {
+  .nav-link {
+    @apply py-2 px-3
+  }
+}

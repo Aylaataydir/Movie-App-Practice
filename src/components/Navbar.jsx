@@ -3,6 +3,9 @@ import { TiThMenu } from "react-icons/ti";
 import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
+
+    const { currentUser, logout } = useAuth();
+
     return (
         <div className='mx-2 md:mx-4 lg:mx-8'>
             <div className="navbar bg-base-100 shadow-sm">
@@ -14,18 +17,21 @@ const Navbar = () => {
                         <ul
                             tabIndex="-1"
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><NavLink to="/watchlist">Watchlist</NavLink></li>
-                            <li><NavLink to="/watched">Watched</NavLink></li>
-                            <li><NavLink to="/favorites">Favorites</NavLink></li>
+                            <li className='nav-link'><NavLink to="/">Home</NavLink></li>
+                            <li className='nav-link'><NavLink to="/watchlist">Watchlist</NavLink></li>
+                            <li className='nav-link'><NavLink to="/watched">Watched</NavLink></li>
+                            <li className='nav-link'><NavLink to="/favorites">Favorites</NavLink></li>
+
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl">MOVIE APP</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
+                        <li><NavLink to="/">Home</NavLink></li>
                         <li><NavLink
-                         className={({isActive}) => isActive ? "border-b-2 border-orange-500" : ""}
-                         to="/watchlist ">Watchlist</NavLink></li>
+                            className={({ isActive }) => isActive ? "border-b-2 border-orange-500" : ""}
+                            to="/watchlist ">Watchlist</NavLink></li>
                         <li><NavLink to="/watched">Watched</NavLink></li>
                         <li><NavLink to="/favorites">Favorites</NavLink></li>
                     </ul>
@@ -61,11 +67,14 @@ const Navbar = () => {
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                         </svg>
                     </label>
-                    <div className="avatar">
+                    <div className="avatar flex items-center space-x-2">
+                    <p className='text-sm'>Name</p>
                         <div className="ring- ring-offset-base-100 w-7 rounded-full ring-1 ring-offset-2">
-                            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                            <img src="https://muratyurtoglu.com/wp-content/uploads/bos-profil-resmi.jpg" />
                         </div>
+                        
                     </div>
+                    <button className='border  py-1 px-3 rounded-lg ms-2'>Login</button>
                 </div>
             </div>
         </div>
