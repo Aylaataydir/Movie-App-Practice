@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { useState } from 'react';
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 
 const Login = () => {
 
@@ -144,7 +143,7 @@ const Login = () => {
             Login with Google
           </button>
         </div>
-
+        <p className='text-center mt-5 font-semibold'>Don't have an account?<NavLink to="/Signup" className="underline ms-2 font-bold " > Sign Up</NavLink></p>
       </div>
     </div>
   )

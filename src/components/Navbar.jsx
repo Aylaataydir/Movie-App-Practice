@@ -1,10 +1,33 @@
 import React from 'react'
 import { TiThMenu } from "react-icons/ti";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
 
     const { currentUser, logout } = useAuth();
+    const navigate = useNavigate()
+
+    const toggleUserLogin = async () => {
+
+        if (currentUser) {
+            try {
+
+                await logout();
+
+            } catch (error) {
+                console.log("cikis yapilamadi:", error)
+            }
+
+        }else {
+
+            navigate("/Login")
+        }
+
+
+
+
+    }
 
     return (
         <div className='mx-2 md:mx-4 lg:mx-8'>
@@ -67,14 +90,21 @@ const Navbar = () => {
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                         </svg>
                     </label>
-                    <div className="avatar flex items-center space-x-2">
-                    <p className='text-sm'>Name</p>
-                        <div className="ring- ring-offset-base-100 w-7 rounded-full ring-1 ring-offset-2">
-                            <img src="https://muratyurtoglu.com/wp-content/uploads/bos-profil-resmi.jpg" />
+
+                    {currentUser &&
+
+                        <div className="avatar flex items-center space-x-2">
+                            <p className='text-sm'>{currentUser?.displayName}</p>
+                            <div className="ring- ring-offset-base-100 w-7 rounded-full ring-1 ring-offset-2">
+                                <img src="https://muratyurtoglu.com/wp-content/uploads/bos-profil-resmi.jpg" />
+                            </div>
+
                         </div>
-                        
-                    </div>
-                    <button className='border  py-1 px-3 rounded-lg ms-2'>Login</button>
+                    }
+
+                    <button
+                        onClick={toggleUserLogin}
+                        className='border  py-1 px-3 rounded-lg ms-2 cursor-pointer'>{currentUser ? "Log out" : "Login"}</button>
                 </div>
             </div>
         </div>

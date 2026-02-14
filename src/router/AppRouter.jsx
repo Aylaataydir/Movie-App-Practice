@@ -7,6 +7,7 @@ import Watched from '../pages/Watched'
 import Favorites from '../pages/Favorites'
 import { AuthProvider } from "../context/AuthContext"
 import Signup from "../components/Singup"
+import Login from '../pages/Login'
 const AppRouter = () => {
     return (
         <BrowserRouter>
@@ -18,6 +19,7 @@ const AppRouter = () => {
                     <Route path='/watched' element={<Watched />} />
                     <Route path='/favorites' element={<Favorites />} />
                     <Route path='/signup' element={<Signup/>} />
+                    <Route path='/login' element={<Login/>}/>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

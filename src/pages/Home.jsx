@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MovieCard from '../components/MovieCard'
 import HomeMovieList from '../components/HomeMovieList'
 import Search from '../components/Search'
+import MovieContext from '../context/MovieContext'
 
 const Home = () => {
+
+    const { movies } = useContext(MovieContext)
+
     return (
         <div>
             <div className='text-center mt-10 mb-15'>
-             <Search/>
+                <Search />
             </div>
             <div>
-                <HomeMovieList />
+                {movies.lengtg > 0 &&
+                    <HomeMovieList />
+                }
             </div>
 
         </div>
