@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TiThMenu } from "react-icons/ti";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import MovieContext from '../context/MovieContext';
 
 const Navbar = () => {
 
+    const {setTheme} = useContext(MovieContext)
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate()
 
@@ -24,10 +26,14 @@ const Navbar = () => {
             navigate("/Login")
         }
 
-
-
-
     }
+
+const toggleTheme = () => {
+
+    setTheme(prev => prev === "light" ? "dark" : "light") 
+
+}
+
 
     return (
         <div className='mx-2 md:mx-4 lg:mx-8'>
@@ -60,8 +66,12 @@ const Navbar = () => {
                     </ul>
                 </div>
 
+                {/* THEME  */}
+
                 <div className="navbar-end space-x-2 md:space-x-4">
-                    <label className="flex cursor-pointer gap-2 scale-75">
+                    <label 
+                      onClick={toggleTheme}
+                    className="flex cursor-pointer gap-2 scale-75">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"

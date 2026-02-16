@@ -10,9 +10,8 @@ export const MovieContextProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState(JSON.parse(localStorage.getItem("watchlist")) || [])
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem("favorites")) || [])
   const [query, setQuery] = useState("")
+  const [theme, setTheme] = useState(localStorage.getItem("theme"))
 
-console.log(query)  
-console.log(movies)
 
   const toggleList = (movie, listName) => {
 
@@ -46,7 +45,7 @@ console.log(movies)
 
   }
 
-
+console.log(theme)
 
   const getMovies = async () => {
 
@@ -77,11 +76,15 @@ console.log(movies)
     localStorage.setItem("watched", JSON.stringify(watched))
   }, [watched])
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+    localStorage.setItem('theme', theme);
+  }, [theme])
 
 
-  console.log(watchlist)
+
   return (
-    <MovieContext.Provider value={{ movies, watched, watchlist, favorites, query, setQuery, toggleList }}>
+    <MovieContext.Provider value={{ movies, watched, watchlist, favorites, query, setQuery, toggleList, setTheme }}>
       {children}
     </MovieContext.Provider>
   )
