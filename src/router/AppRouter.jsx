@@ -20,6 +20,7 @@ const AppRouter = () => {
                     <Route path='/favorites' element={<Favorites />} />
                     <Route path='/signup' element={<Signup/>} />
                     <Route path='/login' element={<Login/>}/>
+                    <Route path='/:category/movie-detail/:title'/>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
