@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, use, useEffect, useState } from 'react'
 
 const MovieContext = createContext()
 
@@ -11,6 +11,11 @@ export const MovieContextProvider = ({ children }) => {
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem("favorites")) || [])
   const [query, setQuery] = useState("")
   const [theme, setTheme] = useState(localStorage.getItem("theme"))
+  const [videoId, setVideoId] = useState("")
+  const [videoUrl, setVideoUrl] = useState()
+
+  const ApiKey = "c51bf062696d28a62cecd62eb0b2faf7"
+
 
 
   const toggleList = (movie, listName) => {
@@ -45,19 +50,29 @@ export const MovieContextProvider = ({ children }) => {
 
   }
 
-console.log(theme)
+
 
   const getMovies = async () => {
 
-    const ApiKey = "c51bf062696d28a62cecd62eb0b2faf7"
     let url = `https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}`
 
     const { data } = await axios(`${url}&query=${query}`)
     setMovies(data.results)
     console.log(data.results)
+
+
   }
 
-  
+
+  const getVideo = async () => {
+    const videoData = await axios(`https://api.themoviedb.org/3/movie/${videoId}/videos?api_key=${ApiKey}`)
+    setVideoUrl(videoData.data.results[0].key)
+
+    console.log(videoData.data.results[0].key)
+
+  }
+
+
 
   useEffect(() => {
     getMovies()
@@ -81,10 +96,16 @@ console.log(theme)
     localStorage.setItem('theme', theme);
   }, [theme])
 
+  useEffect(() => {
+    if (videoId) {
+      getVideo();
+    }
+  }, [videoId])
 
+  
 
   return (
-    <MovieContext.Provider value={{ movies, watched, watchlist, favorites, query, setQuery, toggleList, setTheme }}>
+    <MovieContext.Provider value={{ movies, watched, watchlist, favorites, query, setQuery, toggleList, setTheme, getVideo, setVideoId }}>
       {children}
     </MovieContext.Provider>
   )

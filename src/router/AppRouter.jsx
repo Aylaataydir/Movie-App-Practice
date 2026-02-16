@@ -8,19 +8,22 @@ import Favorites from '../pages/Favorites'
 import { AuthProvider } from "../context/AuthContext"
 import Signup from "../components/Singup"
 import Login from '../pages/Login'
+import MovieDetails from '../components/MovieDetails'
+
+
 const AppRouter = () => {
     return (
         <BrowserRouter>
             <AuthProvider>
                 <Navbar />
                 <Routes>
-                    <Route path='/' element={<Home />} />
+                    <Route path='/home' element={<Home />} />
                     <Route path='/watchlist' element={<Watchlist />} />
                     <Route path='/watched' element={<Watched />} />
                     <Route path='/favorites' element={<Favorites />} />
                     <Route path='/signup' element={<Signup/>} />
                     <Route path='/login' element={<Login/>}/>
-                    <Route path='/:category/movie-detail/:title'/>
+                    <Route path='/:category/movie-detail/:title' element={<MovieDetails/>}/>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

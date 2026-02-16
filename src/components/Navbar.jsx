@@ -46,7 +46,7 @@ const toggleTheme = () => {
                         <ul
                             tabIndex="-1"
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li className='nav-link'><NavLink to="/">Home</NavLink></li>
+                            <li className='nav-link'><NavLink to="/home">Home</NavLink></li>
                             <li className='nav-link'><NavLink to="/watchlist">Watchlist</NavLink></li>
                             <li className='nav-link'><NavLink to="/watched">Watched</NavLink></li>
                             <li className='nav-link'><NavLink to="/favorites">Favorites</NavLink></li>
@@ -55,11 +55,11 @@ const toggleTheme = () => {
                     </div>
                     <a className="btn btn-ghost text-xl">MOVIE APP</a>
                 </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li><NavLink to="/">Home</NavLink></li>
+                <div className="navbar-center hidden lg:flex ">
+                    <ul className="menu menu-horizontal px-1 gap-10">
+                        <li><NavLink to="/home">Home</NavLink></li>
                         <li><NavLink
-                            className={({ isActive }) => isActive ? "border-b-2 border-orange-500" : ""}
+                            className={({ isActive }) => isActive ? "border-b-2" : ""}
                             to="/watchlist ">Watchlist</NavLink></li>
                         <li><NavLink to="/watched">Watched</NavLink></li>
                         <li><NavLink to="/favorites">Favorites</NavLink></li>

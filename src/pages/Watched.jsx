@@ -9,7 +9,7 @@ const Watched = () => {
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10 gap-10 w-4/5 mx-auto border border-white/10 p-10 rounded-lg'>
       {watched?.map(movie => (
-        <MovieCard movie={movie} />
+        <MovieCard key={movie.id} movie={movie} />
       ))
       }
     </div>

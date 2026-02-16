@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 const MovieCard = ({ movie }) => {
 
-    const { toggleList, watched, watchlist, favorites } = useContext(MovieContext)
+    const { toggleList, watched, watchlist, favorites, getVideo, setVideoId } = useContext(MovieContext)
 
     const { title, backdrop_path, release_date, vote_average, overview } = movie
 
@@ -15,6 +15,12 @@ const MovieCard = ({ movie }) => {
     const isInFavorites = favorites.some(m => m.id === movie.id)
 
     const year = movie.release_date ? new Date(release_date).getFullYear() : ""
+
+    const viewDetails = (movie) => {
+
+     navigate(`movie-detail/${movie.title}`, { state: { movie: movie } })
+     setVideoId(movie.id)
+    }
 
     return (
         <div className="card bg-base-100 w-30 md:w-40 lg:w-50 shadow-xl group border border-base-200 h-full mx-auto">
@@ -68,7 +74,7 @@ const MovieCard = ({ movie }) => {
                 </div>
                 <div className="card-actions mt-auto">
                     <button
-                        onClick={() => navigate(`movie-detail/${movie.title}`, { state: { movie: movie } })}
+                        onClick={() => viewDetails(movie)}
                         className="mt-1 bg-orange-600/40 w-full py-1 rounded-lg  tracking-wide cursor-pointer hover:bg-black/20 transition-colors duration-300 ease-in-out  ">
                         View Details
                     </button>
