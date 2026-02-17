@@ -6,7 +6,7 @@ import MovieContext from '../context/MovieContext';
 
 const Navbar = () => {
 
-    const {setTheme} = useContext(MovieContext)
+    const { setTheme } = useContext(MovieContext)
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate()
 
@@ -21,18 +21,18 @@ const Navbar = () => {
                 console.log("cikis yapilamadi:", error)
             }
 
-        }else {
+        } else {
 
             navigate("/Login")
         }
 
     }
 
-const toggleTheme = () => {
+    const toggleTheme = () => {
 
-    setTheme(prev => prev === "light" ? "dark" : "light") 
+        setTheme(prev => prev === "light" ? "dark" : "light")
 
-}
+    }
 
 
     return (
@@ -57,21 +57,22 @@ const toggleTheme = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex ">
                     <ul className="menu menu-horizontal px-1 gap-10">
-                        <li><NavLink to="/home">Home</NavLink></li>
+                        <li><NavLink className={({ isActive }) => isActive && "border-b"} to="/home">Home</NavLink></li>
                         <li><NavLink
-                            className={({ isActive }) => isActive ? "border-b-2" : ""}
-                            to="/watchlist ">Watchlist</NavLink></li>
-                        <li><NavLink to="/watched">Watched</NavLink></li>
-                        <li><NavLink to="/favorites">Favorites</NavLink></li>
+                            className={({ isActive }) => isActive && "border-b"}
+                            to="/watchlist">
+                            Watchlist</NavLink></li>
+                        <li><NavLink className={({ isActive }) => isActive && "border-b"} to="/watched">Watched</NavLink></li>
+                        <li><NavLink className={({ isActive }) => isActive && "border-b"} to="/favorites">Favorites</NavLink></li>
                     </ul>
                 </div>
 
                 {/* THEME  */}
 
                 <div className="navbar-end space-x-2 md:space-x-4">
-                    <label 
-                      onClick={toggleTheme}
-                    className="flex cursor-pointer gap-2 scale-75">
+                    <label
+                        onClick={toggleTheme}
+                        className="flex cursor-pointer gap-2 scale-75">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -108,7 +109,6 @@ const toggleTheme = () => {
                             <div className="ring- ring-offset-base-100 w-7 rounded-full ring-1 ring-offset-2">
                                 <img src="https://muratyurtoglu.com/wp-content/uploads/bos-profil-resmi.jpg" />
                             </div>
-
                         </div>
                     }
 
