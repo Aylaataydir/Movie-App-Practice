@@ -62,8 +62,8 @@ const Navbar = () => {
                             className={({ isActive }) => isActive && "border-b"}
                             to="/watchlist">
                             Watchlist</NavLink></li>
-                        <li><NavLink className={({ isActive }) => isActive && "border-b"} to="/watched">Watched</NavLink></li>
-                        <li><NavLink className={({ isActive }) => isActive && "border-b"} to="/favorites">Favorites</NavLink></li>
+                        <li><NavLink className={({ isActive }) => isActive ? "border-b" : ""} to="/watched">Watched</NavLink></li>
+                        <li><NavLink className={({ isActive }) => isActive ? "border-b" : ""} to="/favorites">Favorites</NavLink></li>
                     </ul>
                 </div>
 
