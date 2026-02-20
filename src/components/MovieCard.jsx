@@ -23,7 +23,7 @@ const MovieCard = ({ movie }) => {
     }
 
     return (
-        <div className="card bg-base-100 w-30 md:w-40 lg:w-50 shadow-xl group border border-base-200 h-full mx-auto">
+        <div className="card bg-base-100 w-50 md:w-40 lg:w-50 shadow-xl group border border-base-200 h-full mx-auto">
             <figure className="relative overflow-hidden">
                 <img
                     src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
@@ -67,7 +67,7 @@ const MovieCard = ({ movie }) => {
             </figure>
 
             <div className="card-body p-4">
-                <h2 className="card-title text-sm font-semibold ">{title}</h2>
+                <h2 className="card-title text-sm font-semibold line-clamp-1 ">{title}</h2>
                 <div className="flex justify-between items-center mt-1">
                     <span className="text-xs text-gray-400">{year}</span>
                     <div className="badge badge-outline badge-sm text-orange-400 border-orange-400">{vote_average?.toFixed(1) || "0.0"}</div>
@@ -75,7 +75,7 @@ const MovieCard = ({ movie }) => {
                 <div className="card-actions mt-auto">
                     <button
                         onClick={() => viewDetails(movie)}
-                        className="mt-1 bg-orange-600/40 w-full py-1 rounded-lg  tracking-wide cursor-pointer hover:bg-black/20 transition-colors duration-300 ease-in-out  ">
+                        className="mt-1 bg-orange-600 dark:bg-orange-600/40  w-full py-1 rounded-lg  tracking-wide cursor-pointer hover:bg-black/20 transition-colors duration-300 ease-in-out  ">
                         View Details
                     </button>
                 </div>

@@ -1,84 +1,161 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { 
+import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  updateProfile,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { toastError, toastSuccess, toastWarn } from '../helpers/ToastNotify';
+import { useNavigate } from 'react-router-dom';
 
-// Context oluşturuyoruz - bu sayede kullanıcı bilgisi tüm uygulamada erişilebilir
+
 const AuthContext = createContext();
 
-// Custom hook - AuthContext'i kolayca kullanmak için
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// Provider component - tüm uygulamayı saracak
+
 export const AuthProvider = ({ children }) => {
-  // Şu anki kullanıcıyı state'te tutuyoruz
-  const [currentUser, setCurrentUser] = useState(null);
+
+  const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate()
+
+
+console.log(currentUser)
   
-  // Yükleniyor durumu - Firebase kullanıcı kontrolü yaparken
-  const [loading, setLoading] = useState(true);
 
-  // 1. KAYIT FONKSIYONU (Email/Şifre ile)
-  const signup = (email, password) => {
-    // Firebase'e kayıt isteği gönderiyoruz
-    // Promise döndürüyor, async/await ile kullanabiliriz
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password, displayName) => {
+
+    try {
+
+      setLoading(true)
+
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      toastSuccess("Registered Successfully");
+      navigate("/home");
+      await updateProfile(auth.currentUser, { displayName: displayName });
+
+    } catch (error) {
+      toastError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false)
+    }
+
   };
 
-  // 2. GİRİŞ FONKSIYONU (Email/Şifre ile)
-  const login = (email, password) => {
-    // Firebase'e giriş isteği gönderiyoruz
-    return signInWithEmailAndPassword(auth, email, password);
+
+  const login = async (email, password) => {
+
+    try {
+      setLoading(true)
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/home");
+      toastSuccess("Logged in Successfully");
+      console.log(currentUser)
+    } catch (error) {
+      toastError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false)
+    }
   };
 
-  // 3. GOOGLE İLE GİRİŞ FONKSIYONU
-  const signUpWithGoogle = () => {
-    // Google provider oluşturuyoruz
+
+
+  const signUpWithGoogle = async () => {
+
     const provider = new GoogleAuthProvider();
-    
-    // Popup açılacak, kullanıcı Google hesabı seçecek
-    return signInWithPopup(auth, provider);
-  };
 
-  // 4. ÇIKIŞ FONKSIYONU
+    try {
+      setLoading(true)
+      await signInWithPopup(auth, provider)
+      navigate("/home");
+      toastSuccess("Logged in Successfully");
+      console.log(currentUser)
+
+    } catch (error) {
+      console.log("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false)
+    }
+
+  }
+
+
   const logout = () => {
-    return signOut(auth);
+
+    signOut(auth);
+    toastSuccess("logout is successfully");
+    navigate("/home");
+
   };
 
-  // 5. KULLANICI DURUMUNU TAKİP ETME
-  useEffect(() => {
-    // Firebase'in onAuthStateChanged fonksiyonu
-    // Kullanıcı durumu değiştiğinde (giriş/çıkış) otomatik çalışır
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user); // user varsa set et, yoksa null
-      setLoading(false); // Kontrol bitti, loading false
-    });
 
-    // Component unmount olduğunda listener'ı temizle
-    return unsubscribe;
+  const forgotPassword = async (email) => {
+
+    if (!email) {
+      toastError("Please enter a Email")
+    } else {
+      try {
+
+        await sendPasswordResetEmail(auth, email)
+        toastWarn("Please check your Email.")
+
+      } catch (error) {
+        toastError(error);
+      }
+    }
+
+  };
+
+  const userTracking = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user)
+        console.log(user.displayName)
+       
+      } else {
+        setCurrentUser(false);
+      }
+      
+    });
+    
+  };
+
+
+  useEffect(() => {
+    userTracking()
+
   }, []);
 
-  // Context'e sunacağımız değerler
+
   const value = {
-    currentUser,    // Şu anki kullanıcı bilgisi
-    signup,         // Kayıt fonksiyonu
-    login,          // Giriş fonksiyonu
-    logout,         // Çıkış fonksiyonu
-    signUpWithGoogle // Google giriş fonksiyonu
+    currentUser,
+    signup,
+    login,
+    logout,
+    signUpWithGoogle,
+    forgotPassword,
+  
   };
 
   // loading true ise hiçbir şey render etme
   // Böylece kullanıcı durumu belirsizken boş ekran gösterilir
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
+
+
+export default AuthContext

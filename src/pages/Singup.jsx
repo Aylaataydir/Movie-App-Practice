@@ -1,4 +1,4 @@
-import { updateProfile } from 'firebase/auth'
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -11,9 +11,6 @@ const Singup = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-
     // Context'ten fonksiyonları alıyoruz
     const { signup, signUpWithGoogle } = useAuth();
 
@@ -21,55 +18,10 @@ const Singup = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault()
-
-        try {
-
-            setLoading(true)
-
-
-            // firebase e kayit istegi gonder 
-            const userCredential = await signup(email, password)
-
-
-            // kullanici adini ayri profile kaydediyoruz. 
-            await updateProfile(userCredential.user, {
-                displayName: name
-            })
-
-            navigate("/home")
-
-        } catch (error) {
-
-            if (error.code === 'auth/email-already-in-use') {
-                setError('This email address is already in use!');
-            } else if (error.code === 'auth/invalid-email') {
-                setError('Invalid email address!');
-            } else if (error.code === 'auth/weak-password') {
-                setError('Password is too weak!');
-            } else {
-                setError('Registration failed: ' + error.message);
-            }
-
-            setLoading(false)
-        }
-
+        signup(email, password, name)
+   
     }
 
-    const handleGoogleSignup = async () => {
-
-        try {
-
-            await signUpWithGoogle()
-            navigate("/home")
-
-        } catch (error) {
-            setError('Google ile giriş başarısız: ' + error.message);
-        }
-
-
-
-
-    }
 
 
 
@@ -79,20 +31,6 @@ const Singup = () => {
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">Sign Up</h2>
                 </div>
-
-                {error && (
-                    <div style={{
-                        color: 'red',
-                        padding: '10px',
-                        marginBottom: '10px',
-                        border: '1px solid red',
-                        borderRadius: '5px',
-                        backgroundColor: '#ffe6e6'
-                    }}>
-                        {error}
-                    </div>
-                )}
-
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form
                         onSubmit={handleSubmit}
@@ -163,7 +101,7 @@ const Singup = () => {
                         </div>
                     </form>
                     <button
-                        onClick={handleGoogleSignup}
+                        onClick={signUpWithGoogle}
                         className="btn rounded-md bg-white text-black border-[#e5e5e5] w-full mt-3">
                         <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
                         Login with Google

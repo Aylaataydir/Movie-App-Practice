@@ -6,12 +6,14 @@ import Watchlist from '../pages/Watchlist'
 import Watched from '../pages/Watched'
 import Favorites from '../pages/Favorites'
 import { AuthProvider } from "../context/AuthContext"
-import Signup from "../components/Singup"
+import Signup from "../pages/Singup"
 import Login from '../pages/Login'
 import MovieDetails from '../components/MovieDetails'
+import PrivateRouter from './PrivateRouter'
 
 
 const AppRouter = () => {
+    
     return (
         <BrowserRouter>
             <AuthProvider>
@@ -23,7 +25,9 @@ const AppRouter = () => {
                     <Route path='/favorites' element={<Favorites />} />
                     <Route path='/signup' element={<Signup/>} />
                     <Route path='/login' element={<Login/>}/>
-                    <Route path='/:category/movie-detail/:title' element={<MovieDetails/>}/>
+                    <Route path='/:category/movie-detail/:title' element={<PrivateRouter/>}>
+                        <Route path='' element={<MovieDetails/>} />
+                    </Route>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

@@ -10,12 +10,11 @@ export const MovieContextProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState(JSON.parse(localStorage.getItem("watchlist")) || [])
   const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem("favorites")) || [])
   const [query, setQuery] = useState("")
-  const [theme, setTheme] = useState(localStorage.getItem("theme"))
+  const [theme, setTheme] = useState("dark")
   const [videoId, setVideoId] = useState("")
   const [videoUrl, setVideoUrl] = useState()
 
-  const ApiKey = "c51bf062696d28a62cecd62eb0b2faf7"
-
+  const API_KEY = import.meta.env.VITE_API_KEY
 
 
   const toggleList = (movie, listName) => {
@@ -54,29 +53,37 @@ export const MovieContextProvider = ({ children }) => {
 
   const getMovies = async () => {
 
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}`
-
-    const { data } = await axios(`${url}&query=${query}`)
+    const { data } = await axios(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`)
     setMovies(data.results)
-    console.log(data.results)
-
 
   }
 
 
   const getVideo = async () => {
-    const videoData = await axios(`https://api.themoviedb.org/3/movie/${videoId}/videos?api_key=${ApiKey}`)
+    const videoData = await axios(`https://api.themoviedb.org/3/movie/${videoId}/videos?api_key=${API_KEY}`)
     setVideoUrl(videoData.data.results[0].key)
 
     console.log(videoData.data.results[0].key)
 
   }
 
+  const getSearch = async () => {
+
+    const { data } =  await axios(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`)
+    setMovies(data.results)
+
+  }
+
+
+
+  useEffect(() => {
+    getSearch()
+  }, [query])
 
 
   useEffect(() => {
     getMovies()
-  }, [query])
+  },[])
 
 
   useEffect(() => {
@@ -93,16 +100,16 @@ export const MovieContextProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
-    localStorage.setItem('theme', theme);
   }, [theme])
 
+  
   useEffect(() => {
     if (videoId) {
       getVideo();
     }
   }, [videoId])
 
-  
+
 
   return (
     <MovieContext.Provider value={{ movies, watched, watchlist, favorites, query, setQuery, toggleList, setTheme, getVideo, setVideoId }}>
